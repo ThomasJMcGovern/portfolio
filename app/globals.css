@@ -1,26 +1,171 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bone: #e3e6e0;
+  --color-bone-dim: #d6d9d2;
+  --color-ink: #0c0c0c;
+  --color-acid: #3bff3b;
+  --color-signal: #e3392a;
+  --color-orchid: #c46cc8;
+  --color-sun: #d8d820;
+  --font-display: var(--font-stencil);
+  --font-body: var(--font-archivo);
+  --font-term: var(--font-vt);
+  --font-masthead: var(--font-serif);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-ink);
+  font-family: var(--font-archivo), sans-serif;
+}
+
+::selection {
+  background: var(--color-acid);
+  color: var(--color-ink);
+}
+
+/* ---------- film grain ---------- */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2%, 1.5%); }
+  50% { transform: translate(1.5%, -2%); }
+  75% { transform: translate(-1%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ---------- glitch tape label ---------- */
+@layer components {
+.tape {
+  position: relative;
+  display: inline-block;
+  font-family: var(--font-vt), monospace;
+  text-transform: uppercase;
+  line-height: 1.05;
+  padding: 0.15em 0.5em;
+  white-space: nowrap;
+}
+
+.tape > .tape-ghost {
+  position: absolute;
+  left: 0.6em;
+  top: 55%;
+  width: 100%;
+  padding: 0.15em 0.5em;
+  clip-path: inset(0 0 0 0);
+  opacity: 0.9;
+  pointer-events: none;
+}
+}
+
+/* ---------- display type ---------- */
+.display {
+  font-family: var(--font-stencil), sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: 0.01em;
+}
+
+.masthead {
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.02em;
+}
+
+.term {
+  font-family: var(--font-vt), monospace;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+/* ---------- marquee ---------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 22s linear infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- cover load-in ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+}
+
+/* ---------- halftone / scan art panels ---------- */
+.art-dots {
+  background-image: radial-gradient(currentColor 1.2px, transparent 1.3px);
+  background-size: 7px 7px;
+}
+
+.art-scan {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.35) 0px,
+    rgba(0, 0, 0, 0.35) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+.art-blur-streak {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    rgba(255, 255, 255, 0.14) 3px,
+    transparent 9px,
+    rgba(0, 0, 0, 0.28) 14px,
+    transparent 21px
+  );
+}
+
+/* hairline rules like the report's justified columns */
+.rule-t { border-top: 1px solid rgba(12, 12, 12, 0.8); }
+
+@media (prefers-reduced-motion: reduce) {
+  .grain::after { animation: none; }
+  .marquee-track { animation-duration: 90s; }
+  .rise, .reveal { animation: none; transition: none; opacity: 1; transform: none; }
 }
