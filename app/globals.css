@@ -1,171 +1,144 @@
 @import "tailwindcss";
 
-@theme inline {
-  --color-bone: #e3e6e0;
-  --color-bone-dim: #d6d9d2;
-  --color-ink: #0c0c0c;
-  --color-acid: #3bff3b;
-  --color-signal: #e3392a;
-  --color-orchid: #c46cc8;
-  --color-sun: #d8d820;
-  --font-display: var(--font-stencil);
-  --font-body: var(--font-archivo);
-  --font-term: var(--font-vt);
-  --font-masthead: var(--font-serif);
-}
-
 :root {
   color-scheme: light;
+  --paper: #e9e3d7;
+  --ink: #24231f;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+html,
 body {
-  background: var(--color-ink);
-  color: var(--color-ink);
-  font-family: var(--font-archivo), sans-serif;
+  min-height: 100%;
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
 }
 
-::selection {
-  background: var(--color-acid);
-  color: var(--color-ink);
-}
-
-/* ---------- film grain ---------- */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: -50%;
-  z-index: 90;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.09;
-  mix-blend-mode: overlay;
-  animation: grain-shift 0.9s steps(4) infinite;
-}
-
-@keyframes grain-shift {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(-2%, 1.5%); }
-  50% { transform: translate(1.5%, -2%); }
-  75% { transform: translate(-1%, -1%); }
-  100% { transform: translate(0, 0); }
-}
-
-/* ---------- glitch tape label ---------- */
-@layer components {
-.tape {
+.sketchbook {
   position: relative;
-  display: inline-block;
-  font-family: var(--font-vt), monospace;
-  text-transform: uppercase;
-  line-height: 1.05;
-  padding: 0.15em 0.5em;
-  white-space: nowrap;
+  isolation: isolate;
+  height: 100svh;
+  min-height: 480px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 48% 40%, #f3eee3 0%, var(--paper) 75%);
 }
 
-.tape > .tape-ghost {
+.portrait {
   position: absolute;
-  left: 0.6em;
-  top: 55%;
-  width: 100%;
-  padding: 0.15em 0.5em;
-  clip-path: inset(0 0 0 0);
-  opacity: 0.9;
-  pointer-events: none;
-}
-}
-
-/* ---------- display type ---------- */
-.display {
-  font-family: var(--font-stencil), sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  line-height: 0.86;
-  letter-spacing: 0.01em;
-}
-
-.masthead {
-  font-family: var(--font-serif), serif;
-  letter-spacing: -0.02em;
-}
-
-.term {
-  font-family: var(--font-vt), monospace;
-  text-transform: uppercase;
-  line-height: 1.15;
-}
-
-/* ---------- marquee ---------- */
-.marquee-track {
+  inset: 0;
   display: flex;
-  width: max-content;
-  animation: marquee 22s linear infinite;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: multiply;
 }
 
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+.portrait-image {
+  flex: none;
+  width: auto;
+  max-width: none;
+  height: 98%;
+  object-fit: contain;
+  mask-image: linear-gradient(to right, transparent, #000 24%, #000 76%, transparent);
 }
 
-/* ---------- scroll reveal ---------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+.signature {
+  position: absolute;
+  top: 8%;
+  left: 5%;
+  width: clamp(240px, 29vw, 430px);
+
+  margin: 0;
+  transform: rotate(-7deg);
 }
 
-.reveal.is-in {
-  opacity: 1;
-  transform: none;
+.signature-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: brightness(0);
+  opacity: 0.9;
 }
 
-/* ---------- cover load-in ---------- */
-@keyframes rise {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: none; }
+.paper-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
-.rise {
-  opacity: 0;
-  animation: rise 0.8s cubic-bezier(0.2, 0.6, 0.2, 1) forwards;
+@media (max-width: 600px) {
+  .signature {
+    top: 5%;
+    left: 7%;
+    width: 70%;
+    max-width: 310px;
+  }
+
+  .portrait {
+    top: 15%;
+  }
+
+  .portrait-image {
+    height: 96%;
+  }
 }
 
-/* ---------- halftone / scan art panels ---------- */
-.art-dots {
-  background-image: radial-gradient(currentColor 1.2px, transparent 1.3px);
-  background-size: 7px 7px;
+/* Hand-drawn navigation is independent of the photo, with generous hit areas. */
+a { -webkit-tap-highlight-color: transparent; }
+a:focus-visible { outline: 3px solid #243db9; outline-offset: 8px; }
+.sketch-nav { position: absolute; inset: 0; }
+.sketch-link { position: absolute; width: clamp(115px, 13vw, 195px); color: var(--ink); text-align: center; text-decoration: none; }
+.sketch-link svg { width: 100%; height: auto; transition: transform 180ms ease; }
+.sketch-link span:not(.sr-only) { display: block; font-family: "Bradley Hand", "Segoe Print", cursive; font-size: clamp(22px, 2.3vw, 34px); line-height: 1.1; }
+.sketch-link:hover { color: #243db9; }
+.sketch-link:hover svg { transform: rotate(5deg) translateY(-4px); }
+.sketch-work { top: 33%; left: 12%; transform: rotate(-8deg); }
+.sketch-about { top: 17%; right: 13%; transform: rotate(7deg); }
+.sketch-contact { right: 10%; bottom: 15%; transform: rotate(-7deg); }
+.portrait-scribble { position: absolute; height: 98%; width: auto; left: 50%; top: 1%; transform: translateX(-50%); color: #243db9; pointer-events: none; }
+.margin-note { position: absolute; left: 7%; bottom: 9%; transform: rotate(-6deg); font: 21px/1.4 "Bradley Hand", "Segoe Print", cursive; }
+.notebook-page { min-height: 100svh; padding: 35px clamp(24px, 7vw, 120px) 80px; background: #f1ece2; }
+.page-header { display: flex; justify-content: space-between; gap: 24px; font: 16px/1.5 Georgia, serif; }
+.page-header nav { display: flex; gap: 26px; }
+.page-header a { text-decoration: none; }
+.page-header a:hover { text-decoration: underline; }
+.page-title { margin: 85px 0 55px; }
+.page-title p { font: 21px/1.3 "Bradley Hand", "Segoe Print", cursive; color: #243db9; transform: rotate(-2deg); transform-origin: left; }
+.page-title h1 { font: clamp(48px, 7vw, 100px)/1.05 Georgia, serif; letter-spacing: -.055em; margin: 20px 0 0; max-width: 1000px; }
+.project-list { max-width: 1050px; }
+.project-link { display: block; padding: 27px 0 34px; border-top: 1px solid #24231f; text-decoration: none; }
+.project-category { font: 17px Georgia, serif; }
+.project-link h2 { font: clamp(30px, 4vw, 52px) Georgia, serif; margin: 10px 0; }
+.project-link h2 span { float: right; }
+.project-link:hover h2 { color: #243db9; }
+.project-link p, .about-layout p, .contact-layout p, .project-story p { max-width: 620px; font: 18px/1.6 Georgia, serif; }
+.project-story { max-width: 780px; }
+.project-story .intro-copy, .intro-copy { font: 30px/1.4 Georgia, serif; }
+.paper-note { margin: 40px 0; border: 1px solid #aaa391; padding: 26px; transform: rotate(-1deg); }
+.paper-note h2 { font: 26px/1.25 "Bradley Hand", "Segoe Print", cursive; margin-bottom: 15px; }
+.text-link { display: inline-block; margin-top: 20px; color: #243db9; font: 20px Georgia, serif; text-underline-offset: 5px; }
+.about-layout, .contact-layout { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 50px; max-width: 1100px; }
+.about-photo { height: 480px; overflow: hidden; transform: rotate(-3deg); mix-blend-mode: multiply; }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; }
+.contact-drawing { max-width: 350px; color: #243db9; transform: rotate(-7deg); }
+@media (max-width: 700px) {
+  .sketchbook { min-height: 740px; }
+  .signature { top: 3%; left: 5%; width: 86%; max-width: 380px; }
+  .portrait { top: 17%; bottom: 8%; }
+  .portrait-image { height: 94%; }
+  .sketch-link { width: 110px; }
+  .sketch-link span:not(.sr-only) { font-size: 23px; }
+  .sketch-work { top: 30%; left: 3%; }
+  .sketch-about { top: 19%; right: 3%; }
+  .sketch-contact { bottom: 16%; right: 3%; }
+  .portrait-scribble { top: 20%; height: 70%; }
+  .margin-note { bottom: 3%; left: 7%; font-size: 18px; }
+  .page-header { flex-direction: column; font-size: 15px; }
+  .page-title { margin: 55px 0 35px; }
+  .about-layout, .contact-layout { grid-template-columns: 1fr; gap: 24px; }
+  .about-photo { height: 350px; }
+  .contact-drawing { width: 190px; }
 }
+@media (prefers-reduced-motion: reduce) { .sketch-link svg { transition: none; } }
 
-.art-scan {
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.35) 0px,
-    rgba(0, 0, 0, 0.35) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-}
-
-.art-blur-streak {
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    rgba(255, 255, 255, 0.14) 3px,
-    transparent 9px,
-    rgba(0, 0, 0, 0.28) 14px,
-    transparent 21px
-  );
-}
-
-/* hairline rules like the report's justified columns */
-.rule-t { border-top: 1px solid rgba(12, 12, 12, 0.8); }
-
-@media (prefers-reduced-motion: reduce) {
-  .grain::after { animation: none; }
-  .marquee-track { animation-duration: 90s; }
-  .rise, .reveal { animation: none; transition: none; opacity: 1; transform: none; }
-}
+.contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; overflow-wrap: anywhere; }
