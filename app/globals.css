@@ -142,3 +142,25 @@ a:focus-visible { outline: 3px solid #243db9; outline-offset: 8px; }
 @media (prefers-reduced-motion: reduce) { .sketch-link svg { transition: none; } }
 
 .contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; overflow-wrap: anywhere; }
+
+.navigation-art { display: block; width: 100%; height: auto; object-fit: contain; transition: transform 180ms ease; }
+.sketch-link:hover .navigation-art { transform: rotate(4deg) translateY(-4px); }
+.sketch-work { width: clamp(145px, 17vw, 250px); }
+.sketch-about .navigation-art { max-height: 170px; }
+.sketch-contact { width: clamp(170px, 19vw, 280px); }
+.sketch-link span:not(.sr-only) { margin-top: 8px; }
+.project-title-link { text-decoration: none; }
+.project-actions { display: flex; flex-wrap: wrap; gap: 16px 30px; margin-top: 20px; font: 17px/1.5 Georgia, serif; color: #243db9; }
+.project-actions a { text-underline-offset: 5px; }
+.project-role { color: #243db9; }
+.story-section { margin: 45px 0; }
+.story-section h2 { font: 30px/1.2 Georgia, serif; margin-bottom: 14px; }
+.story-footer { border-top: 1px solid #aaa391; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; padding-top: 20px; }
+@media (max-width: 700px) {
+  .sketch-work { width: 135px; left: 1%; }
+  .sketch-about { width: 100px; }
+  .sketch-about .navigation-art { max-height: 120px; }
+  .sketch-contact { width: 140px; right: 2%; }
+  .project-category { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .navigation-art { transition: none; } }

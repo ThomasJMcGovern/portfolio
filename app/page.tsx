@@ -1,6 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Sketch } from "@/components/sketch";
+const navigationArt = {
+  work: { src: "work-laptop", width: 1536, height: 1024 },
+  about: { src: "about-portrait", width: 1149, height: 1369 },
+  contact: { src: "contact-sticker", width: 1480, height: 1063 },
+};
 
 export default function Home() {
   return (
@@ -31,7 +35,14 @@ export default function Home() {
       <nav className="sketch-nav" aria-label="Main navigation">
         {(["work", "about", "contact"] as const).map(kind => (
           <Link key={kind} href={`/${kind}`} className={`sketch-link sketch-${kind}`}>
-            <Sketch kind={kind} />
+            <Image
+              src={`/assets/originals/${navigationArt[kind].src}.png`}
+              width={navigationArt[kind].width}
+              height={navigationArt[kind].height}
+              alt=""
+              sizes="(max-width: 700px) 140px, 240px"
+              className="navigation-art"
+            />
             <span>{kind === "work" ? "My work" : kind === "about" ? "Who’s this?" : "Say hello"}</span>
             <span className="sr-only"> — {kind}</span>
           </Link>
