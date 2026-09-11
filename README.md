@@ -31,3 +31,5 @@ bun run build
 ```
 
 Project copy combines TJ’s supplied account of his professional contributions with the local audit. Brewlune results are dated experiment observations. Screenshots and video can be added when available. External links open in a new tab; no unverified Gist product URL is guessed. The former `/work/widget-console` URL redirects to `/work/gist-widget-builder`.
+
+Brewlune includes a user-supplied September 10, 2026 screen recording in `public/videos/brewlune-chatgpt-demo.mp4`, encoded as H.264/AAC MP4 with fast-start metadata. The player has native controls, inline mobile playback, and a download link.

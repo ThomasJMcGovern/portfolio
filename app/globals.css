@@ -164,3 +164,8 @@ a:focus-visible { outline: 3px solid #243db9; outline-offset: 8px; }
   .project-category { font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) { .navigation-art { transition: none; } }
+
+.project-video { margin: 38px 0; }
+.project-video video { display: block; width: 100%; height: auto; background: #111; }
+.project-video figcaption { margin-top: 12px; font: 15px/1.5 Georgia, serif; color: #57534b; }
+.video-download { display: inline-block; margin-top: 10px; color: #243db9; font: 15px/1.5 Georgia, serif; text-underline-offset: 4px; }
